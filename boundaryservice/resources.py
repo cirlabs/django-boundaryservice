@@ -10,7 +10,7 @@ from django.contrib.gis.geos import Polygon
 from boundaryservice.authentication import NoOpApiKeyAuthentication
 from boundaryservice.models import BoundarySet, Boundary
 from boundaryservice.tastyhacks import SluggedResource
-from boundaryservice.throttle import AnonymousThrottle
+# from boundaryservice.throttle import AnonymousThrottle
 
 # if getattr(settings, 'BOUNDARY_SERVICE_THROTTLE', False):
 #     throttle_cls = AnonymousThrottle(**settings.BOUNDARY_SERVICE_THROTTLE)
