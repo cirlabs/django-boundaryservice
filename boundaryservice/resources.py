@@ -33,7 +33,8 @@ class BoundarySetResource(SluggedResource):
         excludes = ['id', 'singular', 'kind_first']
         allowed_methods = ['get']
         authentication = NoOpApiKeyAuthentication()
-        throttle = throttle_cls
+        if throttle_cls:
+            throttle = throttle_cls
 
 
 class BoundaryResource(SluggedResource):
@@ -50,6 +51,8 @@ class BoundaryResource(SluggedResource):
         excludes = ['id', 'display_name']
         allowed_methods = ['get']
         authentication = NoOpApiKeyAuthentication()
+        if throttle_cls:
+            throttle = throttle_cls
         throttle = throttle_cls
         filtering = {
             "slug": ALL
