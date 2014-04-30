@@ -10,12 +10,12 @@ from django.contrib.gis.geos import Polygon
 from boundaryservice.authentication import NoOpApiKeyAuthentication
 from boundaryservice.models import BoundarySet, Boundary
 from boundaryservice.tastyhacks import SluggedResource
-# from boundaryservice.throttle import AnonymousThrottle
+from boundaryservice.throttle import AnonymousThrottle
 
-# if getattr(settings, 'BOUNDARY_SERVICE_THROTTLE', False):
-#     throttle_cls = AnonymousThrottle(**settings.BOUNDARY_SERVICE_THROTTLE)
-# else:
-#     throttle_cls = False
+if getattr(settings, 'BOUNDARY_SERVICE_THROTTLE', False):
+    throttle_cls = AnonymousThrottle(**settings.BOUNDARY_SERVICE_THROTTLE)
+else:
+    throttle_cls = False
 
 
 class BoundarySetResource(SluggedResource):
@@ -33,8 +33,7 @@ class BoundarySetResource(SluggedResource):
         excludes = ['id', 'singular', 'kind_first']
         allowed_methods = ['get']
         authentication = NoOpApiKeyAuthentication()
-        # if throttle_cls:
-        #     throttle = throttle_cls
+        throttle = throttle_cls
 
 
 class BoundaryResource(SluggedResource):
@@ -51,9 +50,7 @@ class BoundaryResource(SluggedResource):
         excludes = ['id', 'display_name']
         allowed_methods = ['get']
         authentication = NoOpApiKeyAuthentication()
-        # if throttle_cls:
-        #     throttle = throttle_cls
-        # throttle = throttle_cls
+        throttle = throttle_cls
         filtering = {
             "slug": ALL
         }
