@@ -2,6 +2,7 @@ import re
 
 from django.conf import settings
 from django.contrib.gis.measure import D
+from django.http import HttpResponse
 from tastypie import fields
 from tastypie.serializers import Serializer
 from tastypie.constants import ALL, ALL_WITH_RELATIONS
