@@ -135,6 +135,8 @@ class BoundaryResource(SluggedResource):
     def build_content_type(self, format, encoding='utf-8'):
         """
         Appends character encoding to the provided format if not already present.
+
+        Grabbed from http://stackoverflow.com/questions/17280513/tastypie-json-header-to-use-utf-8
         """
         if 'charset' in format:
             return format
@@ -146,6 +148,8 @@ class BoundaryResource(SluggedResource):
         Extracts the common "which-format/serialize/return-response" cycle.
 
         Mostly a useful shortcut/hook.
+
+        Grabbed from http://stackoverflow.com/questions/17280513/tastypie-json-header-to-use-utf-8
         """
         desired_format = self.determine_format(request)
         serialized = self.serialize(request, data, desired_format)
