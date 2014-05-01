@@ -63,13 +63,14 @@ class BoundaryResource(SluggedResource):
         shape_type = request.GET.get('shape_type', 'simple')
 
         for obj in data['objects']:
-            if shape_type != 'simple':
-                del obj.data['simple_shape']
+            if shape_type != 'simple':    def build_content_type(format, encoding='utf-8'):
+        """
+        Appends character encoding to the provided format if not already present.
+        """
+        if 'charset' in format:
+            return format
 
-            if shape_type != 'full':
-                del obj.data['shape']
-
-        return data
+        return "%s; charset=%s" % (format, encoding)
 
     def alter_detail_data_to_serialize(self, request, bundle):
         """
@@ -130,3 +131,22 @@ class BoundaryResource(SluggedResource):
             orm_filters.update({'shape__intersects': bbox})
 
         return orm_filters
+
+    def build_content_type(self, format, encoding='utf-8'):
+        """
+        Appends character encoding to the provided format if not already present.
+        """
+        if 'charset' in format:
+            return format
+
+        return "%s; charset=%s" % (format, encoding)
+
+    def create_response(self, request, data, response_class=HttpResponse, **response_kwargs):
+        """
+        Extracts the common "which-format/serialize/return-response" cycle.
+
+        Mostly a useful shortcut/hook.
+        """
+        desired_format = self.determine_format(request)
+        serialized = self.serialize(request, data, desired_format)
+        return response_class(content=serialized, content_type=self.build_content_type(desired_format), **response_kwargs)
