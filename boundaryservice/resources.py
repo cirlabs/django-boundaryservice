@@ -63,14 +63,13 @@ class BoundaryResource(SluggedResource):
         shape_type = request.GET.get('shape_type', 'simple')
 
         for obj in data['objects']:
-            if shape_type != 'simple':    def build_content_type(format, encoding='utf-8'):
-        """
-        Appends character encoding to the provided format if not already present.
-        """
-        if 'charset' in format:
-            return format
+            if shape_type != 'simple':
+                del obj.data['simple_shape']
 
-        return "%s; charset=%s" % (format, encoding)
+            if shape_type != 'full':
+                del obj.data['shape']
+
+        return data
 
     def alter_detail_data_to_serialize(self, request, bundle):
         """
